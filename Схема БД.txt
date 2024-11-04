@@ -1,0 +1,66 @@
+TABLE office {
+  id UUID [PRIMARY KEY]
+  name VARCHAR
+  address VARCHAR
+  start_time TIME
+  finish_time TIME
+}
+
+TABLE master {
+  id UUID [PRIMARY KEY]
+  name VARCHAR
+  seniority DATE 
+  StartTime TIME
+  FinishTime TIME
+  office_id UUID
+}
+
+TABLE client {
+  id UUID [PRIMARY KEY]
+  name VARCHAR
+  born_date DATE 
+  office_id UUID
+}
+
+TABLE schedule {
+  id UUID [PRIMARY KEY]
+  what_date DATE 
+  StartTime TIME
+  FinishTime TIME
+  master_id UUID
+  office_id UUID
+}
+
+TABLE service {
+  id UUID [PRIMARY KEY]
+  name VARCHAR
+  price MONEY
+  duration TIME
+  master_id UUID
+  office_id UUID
+}
+
+TABLE appointment {
+  id UUID [PRIMARY KEY]
+  client_id UUID
+  master_id UUID
+  service_id UUID
+  appointment_date DATE
+  appointment_time TIME
+  office_id UUID
+}
+
+Ref: "office"."id" < "master"."office_id"
+
+Ref: "office"."id" < "client"."office_id"
+
+Ref: "master"."id" < "schedule"."master_id"
+Ref: "office"."id" < "schedule"."office_id"
+
+Ref: "master"."id" < "service"."master_id"
+Ref: "office"."id" < "service"."office_id"
+
+Ref: "client"."id" < "appointment"."client_id"
+Ref: "master"."id" < "appointment"."master_id"
+Ref: "service"."id" < "appointment"."service_id"
+Ref: "office"."id" < "appointment"."office_id"
